@@ -1,0 +1,19 @@
+{
+    "name": "gerges/parsewiki",
+    "type": "library",
+    "description": "A library that helps parse wikitext template data",
+    "keywords": ["Mediawiki", "Parser","wikitext"],
+    "license": "GPL-3.0",
+    "autoload": {
+        "psr-4": {
+            "ParseWiki\\": "src/"
+        }
+    },
+    "authors": [
+        {
+            "name": "GergesShamon",
+            "email": "gerges.shamoon.dev@gmail.com"
+        }
+    ],
+    "require": {}
+}
