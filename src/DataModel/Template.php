@@ -18,7 +18,7 @@ class Template
     {
         return $this->parameters;
     }
-    public function toString(bool $newLine): string
+    public function toString(bool $newLine = false): string
     {
         $line = $newLine ? "\n" : "";
         $this->template = "{{" . $this->name;
