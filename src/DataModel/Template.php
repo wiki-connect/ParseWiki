@@ -18,6 +18,14 @@ class Template
     {
         return $this->parameters;
     }
+    public function getParameter(string $key): string 
+    {
+        return $this->parameters[$key];
+    }
+    public function setParameter(string $key, string $value): void 
+    {
+        $this->parameters[$key] = $value;
+    }
     public function toString(bool $newLine = false): string
     {
         $line = $newLine ? "\n" : "";
