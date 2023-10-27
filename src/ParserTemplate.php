@@ -15,7 +15,7 @@ class ParserTemplate
     }
     private function parse() : void
     {
-        if (preg_match("/^\{\{(.*)(\}\})$/s", $this->templateText , $matchesR)) {
+        if (preg_match("/^\{\{(.*)(\}\})$/s", $this->templateText, $matchesR)) {
             $DTemplate = $matchesR[1];
             $matches = [];
             preg_match_all("/\{\{(.*)\}\}/", $DTemplate, $matches);
@@ -29,8 +29,10 @@ class ParserTemplate
             }
 
             $params = explode("|", $DTemplate);
-            $params = array_map(function($string) use ($this->pipeR, $this->pipe) {
-                return str_replace($this->pipeR, $this->pipe, $string);
+            $pipeR = $this->pipeR;
+            $pipe = $this->pipe;
+            $params = array_map(function($string) use ($pipeR, $pipe) {
+                return str_replace($pipeR, $pipe, $string);
             }, $params);
             $data = [];
             $this->name = $params[0];
@@ -45,14 +47,10 @@ class ParserTemplate
                     $data[$i] = $param;
                 }
             }
-                $this->parameters = $data;
+            $this->parameters = $data;
         }
     }
     public function getTemplate() : Template {
-        if (empty($this->name)) {
-            return new Template($this->name, $this->parameters);
-        } else {
-            return null;
-        }
+        return new Template($this->name, $this->parameters);
     }
 }
