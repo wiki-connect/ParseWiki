@@ -38,8 +38,8 @@ class ParserTemplate
             $this->name = $params[0];
             for ($i = 1; $i < count($params); $i++) {
                 $param = $params[$i];
-                if (strpos($param, '=') !== false) {
-                    $parts = explode('=', $param, 2);
+                if (strpos($param, "=") !== false) {
+                    $parts = explode("=", $param, 2);
                     $key = trim($parts[0]);
                     $value = trim($parts[1]);
                     $data[$key] = $value;

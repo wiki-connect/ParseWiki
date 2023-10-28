@@ -30,8 +30,14 @@ class Template
     {
         $line = $newLine ? "\n" : "";
         $this->template = "{{" . $this->name;
+        $i = 1;
         foreach ($this->parameters as $key => $value) {
+            if($i == $key){
+            $this->template .= $line."|" . $value;
+            } else {
             $this->template .= $line."|" . $key . "=" . $value;
+            }
+            $i++;
         }
         $this->template .= "}}";
         return $this->template;
