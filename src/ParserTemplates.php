@@ -22,7 +22,17 @@ class ParserTemplates
             $this->templates[] = $_parser->getTemplate();
         }
     }
-    public function getTemplates() : array {
-        return $this->templates;
+    public function getTemplates(string $name = null) : array {
+        $outtemplates = [];
+        if (isset($name)) {
+            foreach ($this->templates as $template) {
+                if ($template->getName() == $name) {
+                    $outtemplates[] = $template;
+                }
+            }
+        } else {
+            $outtemplates = $this->templates;
+        }
+        return $outtemplates;
     }
 }

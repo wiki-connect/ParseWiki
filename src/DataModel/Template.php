@@ -33,13 +33,13 @@ class Template
         $i = 1;
         foreach ($this->parameters as $key => $value) {
             if($i == $key){
-            $this->template .= $line."|" . $value;
+            $this->template .= "|" . $value;
             } else {
-            $this->template .= $line."|" . $key . "=" . $value;
+            $this->template .= $line."|" . $key . " = " . $value;
             }
             $i++;
         }
-        $this->template .= "}}";
+        $this->template .= $line."}}";
         return $this->template;
     }
 }
