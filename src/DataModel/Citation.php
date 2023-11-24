@@ -16,6 +16,6 @@ class Citation
         return $this->options;
     }
     public function toString(): string {
-        return "<ref".$this->options.">".$this->template."</ref>";
+        return "<ref ".trim($this->options).">".$this->template."</ref>";
     }
 }

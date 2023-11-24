@@ -10,7 +10,7 @@ class ParserCitations
         $this->parse();
     }
     private function find_sub_citations($string) {
-        preg_match_all("/<ref ([^\/>]*?)>(.+?)<\/ref>/is", $string, $matches);
+        preg_match_all("/<ref([^\/>]*?)>(.+?)<\/ref>/is", $string, $matches);
         return $matches;
     }
     public function parse(): void
