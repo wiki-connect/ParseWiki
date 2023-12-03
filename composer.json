@@ -1,5 +1,5 @@
 {
-    "name": "wikiconnect/parsewiki",
+    "name": "wiki-connect/parsewiki",
     "type": "library",
     "description": "A library that helps parse wikitext template data",
     "keywords": ["Mediawiki", "Parser","wikitext"],
