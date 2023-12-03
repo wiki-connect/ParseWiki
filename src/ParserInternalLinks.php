@@ -1,6 +1,6 @@
 <?php
-namespace ParseWiki;
-use ParseWiki\DataModel\InternalLink;
+namespace WikiConnect\ParseWiki;
+use WikiConnect\ParseWiki\DataModel\InternalLink;
 class ParserInternalLinks
 {
     private string $text;

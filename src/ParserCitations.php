@@ -1,6 +1,6 @@
 <?php
-namespace ParseWiki;
-use ParseWiki\DataModel\Citation;
+namespace WikiConnect\ParseWiki;
+use WikiConnect\ParseWiki\DataModel\Citation;
 class ParserCitations
 {
     private string $text;

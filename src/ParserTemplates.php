@@ -1,6 +1,6 @@
 <?php
-namespace ParseWiki;
-use ParseWiki\DataModel\Template;
+namespace WikiConnect\ParseWiki;
+use WikiConnect\ParseWiki\DataModel\Template;
 class ParserTemplates
 {
     private string $text;

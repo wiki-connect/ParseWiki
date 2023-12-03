@@ -1,5 +1,5 @@
 <?php
-namespace ParseWiki\DataModel;
+namespace WikiConnect\ParseWiki\DataModel;
 
 class InternalLink
 {

@@ -1,5 +1,5 @@
 <?php
-namespace ParseWiki;
+namespace WikiConnect\ParseWiki;
 
 class ParserCategorys
 {
