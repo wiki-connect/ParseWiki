@@ -12,7 +12,7 @@ class ParserCategorys
         $this->categorys = array();
         $this->parse();
     }
-    private function parse() : void
+    public function parse() : void
     {
         if (preg_match_all("\[\[\s*".$this->namespace."\s*\:([^\]\]]+?)\]\]", $this->text, $matches)) {
             foreach ($matches[1] as $nil => $mvalue) {

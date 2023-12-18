@@ -13,7 +13,7 @@ class ParserTemplate
         $this->parameters = array();
         $this->parse();
     }
-    private function parse() : void
+    public function parse() : void
     {
         if (preg_match("/^\{\{(.*)(\}\})$/s", $this->templateText, $matchesR)) {
             $DTemplate = $matchesR[1];

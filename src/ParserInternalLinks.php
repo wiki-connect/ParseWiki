@@ -13,7 +13,7 @@ class ParserInternalLinks
         preg_match_all("/\[{2}((?>[^\[\]]+)|(?R))*\]{2}/x", $string, $matches);
         return $matches;
     }
-    private function parse() : void
+    public function parse() : void
     {
         $text_links = $this->find_sub_links($this->text);
         $this->links = [];

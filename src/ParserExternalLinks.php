@@ -13,7 +13,7 @@ class ParserExternalLinks
         preg_match_all("/\[(https?:\/\/\S+)(.*?)\]/s", $string, $matches);
         return $matches;
     }
-    private function parse() : void
+    public function parse() : void
     {
         $text_links = $this->find_sub_links($this->text);
         $this->links = [];

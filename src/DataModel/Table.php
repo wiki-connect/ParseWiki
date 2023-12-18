@@ -34,9 +34,9 @@ class Table
         
         for ($i = 0; $i < count($this->header); $i++) {
             if ($i + 1 == count($this->header)) {
-                $tableMarkup .= $this->header[$i] .PHP_EOL;
+                $tableMarkup .= "!" . $this->header[$i] .PHP_EOL;
             } else {
-                $tableMarkup .= $this->header[$i] ."!";
+                $tableMarkup .= "!" . $this->header[$i] .PHP_EOL;
             }
         }
         $tableMarkup .= "|-" . PHP_EOL;

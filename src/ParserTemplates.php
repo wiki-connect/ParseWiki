@@ -13,7 +13,7 @@ class ParserTemplates
         preg_match_all("/\{{2}((?>[^\{\}]+)|(?R))*\}{2}/x", $string, $matches);
         return $matches;
     }
-    private function parse() : void
+    public function parse() : void
     {
         $text_templates = $this->find_sub_templates($this->text);
         $this->templates = [];
