@@ -17,7 +17,8 @@
     ],
     "scripts": {
         "test": [
-            "phpstan analyse"
+            "phpstan analyse",
+            "phpunit --testdox --colors=always"
         ]
     },
     "require-dev": {
