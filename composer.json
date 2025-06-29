@@ -15,5 +15,7 @@
             "email": "gerges.shamoon.dev@gmail.com"
         }
     ],
-    "require": {}
+    "require-dev": {
+        "phpstan/phpstan": "^2.1"
+    }
 }
