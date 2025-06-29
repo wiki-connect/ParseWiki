@@ -2,13 +2,55 @@
 
 namespace WikiConnect\ParseWiki\DataModel;
 
+/**
+ * Class Template
+ *
+ * Represents a template in a wikitext document.
+ *
+ * @package WikiConnect\ParseWiki\DataModel
+ */
 class Template
 {
+    /**
+     * The name of the template.
+     *
+     * @var string
+     */
     private string $template;
+    /**
+     * The name of the template.
+     *
+     * @var string
+     */
     private string $name;
+    /**
+     * The name of the template stripped of any underscores.
+     *
+     * @var string
+     */
     private string $name_strip;
+
+    /**
+     * The text of the template.
+     *
+     * @var string
+     */
     private string $templateText;
+
+    /**
+     * The parameters of the template.
+     *
+     * @var array
+     */
     private array $parameters;
+
+    /**
+     * Template constructor.
+     *
+     * @param string $name The name of the template.
+     * @param array $parameters The parameters of the template.
+     * @param string $templateText The text of the template.
+     */
     public function __construct(string $name, array $parameters = [], string $templateText = "")
     {
         $this->name = $name;
@@ -16,41 +58,106 @@ class Template
         $this->parameters = $parameters;
         $this->templateText = $templateText;
     }
+
+    /**
+     * Get the text of the template.
+     *
+     * @return string The text of the template.
+     */
     public function getTemplateText(): string
     {
         return $this->templateText;
     }
+
+    /**
+     * Get the name of the template.
+     *
+     * @return string The name of the template.
+     */
     public function getName(): string
     {
         return $this->name;
     }
+
+    /**
+     * Get the name of the template stripped of any underscores.
+     *
+     * @return string The name of the template stripped of any underscores.
+     */
     public function getStripName(): string
     {
         return $this->name_strip;
     }
 
+    /**
+     * Get the parameters of the template.
+     *
+     * @return array The parameters of the template.
+     */
     public function getParameters(): array
     {
         return $this->parameters;
     }
+
+    /**
+     * Delete a parameter of the template.
+     *
+     * @param string $key The key of the parameter to delete.
+     *
+     * @return void
+     */
     public function deleteParameter(string $key): void
     {
         if (array_key_exists($key, $this->parameters)) {
             unset($this->parameters[$key]);
         }
     }
+
+    /**
+     * Get a parameter of the template.
+     *
+     * @param string $key The key of the parameter to get.
+     *
+     * @return string The value of the parameter.
+     */
     public function getParameter(string $key): string
     {
         return $this->parameters[$key] ?? "";
     }
+
+    /**
+     * Set the name of the template.
+     *
+     * @param string $name The new name of the template.
+     *
+     * @return void
+     */
     public function setTempName(string $name): void
     {
         $this->name = $name;
     }
+
+    /**
+     * Set a parameter of the template.
+     *
+     * @param string $key The key of the parameter to set.
+     * @param string $value The value of the parameter.
+     *
+     * @return void
+     */
     public function setParameter(string $key, string $value): void
     {
         $this->parameters[$key] = $value;
     }
+
+    /**
+     * Change the name of a parameter of the template.
+     *
+     * @param string $old The old name of the parameter.
+     * @param string $new The new name of the parameter.
+     *
+     * @return void
+     */
     public function changeParameterName(string $old, string $new): void
     {
         $newParameters = [];
@@ -63,6 +170,13 @@ class Template
         $this->parameters = $newParameters;
     }
 
+    /**
+     * Change the names of multiple parameters of the template.
+     *
+     * @param array $params_new The new names of the parameters.
+     *
+     * @return void
+     */
     public function changeParametersNames(array $params_new): void
     {
         $newParameters = [];
@@ -73,7 +187,15 @@ class Template
         $this->parameters = $newParameters;
     }
 
-    public function toString(bool $newLine = false, $ljust = 0): string
+    /**
+     * Convert the template to a string.
+     *
+     * @param bool $newLine If true, a new line is added after the template.
+     * @param int $ljust The number of spaces to left-justify the parameter names.
+     *
+     * @return string The string representation of the template.
+     */
+    public function toString(bool $newLine = false, int $ljust = 0): string
     {
         $line = $newLine ? "\n" : "";
         $this->template = $newLine ? "{{" . trim($this->name) : "{{" . $this->name;
@@ -95,3 +217,4 @@ class Template
         return $this->template;
     }
 }
+

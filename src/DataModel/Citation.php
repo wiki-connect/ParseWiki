@@ -2,31 +2,66 @@
 
 namespace WikiConnect\ParseWiki\DataModel;
 
+/**
+ * Class Citation
+ *
+ * Represents a citation in a wikitext document.
+ *
+ * @package WikiConnect\ParseWiki\DataModel
+ */
 class Citation
 {
-    private string $template;
-    private string $options;
-    private string $cite_text;
-    public function __construct(string $template, string $options = "", string $cite_text = "")
+    /**
+     * @var string The content of the citation.
+     */
+    private string $content;
+
+    /**
+     * @var string The attributes of the citation.
+     */
+    private string $attributes;
+
+    /**
+     * Citation constructor.
+     *
+     * @param string $content The content of the citation.
+     * @param string $attributes The attributes of the citation.
+     */
+    public function __construct(string $content, string $attributes = "")
     {
-        $this->template = $template;
-        $this->options = $options;
-        $this->cite_text = $cite_text;
+        $this->content = $content;
+        $this->attributes = $attributes;
     }
-    public function getCiteText(): string
+
+
+    /**
+     * Get the template name of the citation.
+     *
+     * @return string The template name of the citation.
+     */
+    public function getContent(): string
     {
-        return $this->cite_text;
+        return $this->content;
     }
-    public function getTemplate(): string
+
+    /**
+     * Get the options of the citation.
+     *
+     * @return string The options of the citation.
+     */
+    public function getAttributes(): string
     {
-        return $this->template;
+        return $this->attributes;
     }
-    public function getOptions(): string
-    {
-        return $this->options;
-    }
+
+    /**
+     * Convert the citation to a string.
+     *
+     * @return string The citation as a string.
+     */
     public function toString(): string
     {
-        return "<ref " . trim($this->options) . ">" . $this->template . "</ref>";
+        return "<ref " . trim($this->attributes) . ">" . $this->content . "</ref>";
     }
 }
+

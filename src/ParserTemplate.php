@@ -4,6 +4,12 @@ namespace WikiConnect\ParseWiki;
 
 use WikiConnect\ParseWiki\DataModel\Template;
 
+/**
+ * Class ParserTemplate
+ * Parses a template text into its components: name and parameters.
+ *
+ * @package WikiConnect\ParseWiki
+ */
 class ParserTemplate
 {
     private string $templateText;
@@ -11,12 +17,25 @@ class ParserTemplate
     private array $parameters;
     private string $pipe = "|";
     private string $pipeR = "-_-";
+
+    /**
+     * ParserTemplate constructor.
+     *
+     * @param string $templateText The template text to parse.
+     */
     public function __construct(string $templateText)
     {
         $this->templateText = trim($templateText);
         $this->parameters = array();
         $this->parse();
     }
+
+    /**
+     * Parses the template text to extract the template name and parameters.
+     *
+     * This method does not return any value. It sets the internal state of the
+     * object by populating the $name and $parameters properties.
+     */
     public function parse(): void
     {
         if (preg_match("/^\{\{(.*?)(\}\})$/s", $this->templateText, $matchesR)) {
@@ -54,8 +73,15 @@ class ParserTemplate
             $this->parameters = $data;
         }
     }
+
+    /**
+     * Creates a Template object from the parsed template name and parameters.
+     *
+     * @return Template The Template object representing the parsed template data.
+     */
     public function getTemplate(): Template
     {
         return new Template($this->name, $this->parameters, $this->templateText);
     }
 }
+

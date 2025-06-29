@@ -3,7 +3,7 @@
     "type": "library",
     "description": "A library that helps parse wikitext template data",
     "keywords": ["Mediawiki", "Parser","wikitext"],
-    "license": "GPL-3.0",
+    "license": "GPL-3.0-or-later",
     "autoload": {
         "psr-4": {
             "WikiConnect\\ParseWiki\\": "src/"
@@ -15,5 +15,19 @@
             "email": "gerges.shamoon.dev@gmail.com"
         }
     ],
-    "require": {}
+    "scripts": {
+        "test": [
+            "phpstan analyse",
+            "phpunit --testdox --colors=always"
+        ]
+    },
+    "config": {
+        "platform": {
+            "php": "8.1.29"
+        }
+    },
+    "require-dev": {
+        "phpstan/phpstan": "^2.1",
+        "phpunit/phpunit": "^12.2"
+    }
 }
