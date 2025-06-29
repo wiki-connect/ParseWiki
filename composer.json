@@ -3,7 +3,7 @@
     "type": "library",
     "description": "A library that helps parse wikitext template data",
     "keywords": ["Mediawiki", "Parser","wikitext"],
-    "license": "GPL-3.0",
+    "license": "GPL-3.0-or-later",
     "autoload": {
         "psr-4": {
             "WikiConnect\\ParseWiki\\": "src/"
