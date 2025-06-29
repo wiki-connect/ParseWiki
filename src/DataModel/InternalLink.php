@@ -11,11 +11,11 @@ namespace WikiConnect\ParseWiki\DataModel;
 class InternalLink
 {
     /**
-     * @var string The link target.
+     * @var string The page target.
      */
-    private string $link;
+    private string $target;
     /**
-     * @var string The display text of the link.
+     * @var string The display text of the page.
      */
     private string $text;
 
@@ -24,19 +24,19 @@ class InternalLink
      *
      * Creates a new InternalLink object.
      *
-     * @param string $link The link target.
-     * @param string $text The display text of the link. Defaults to the link target.
+     * @param string $target The page target.
+     * @param string $text The display text of the page. Defaults to the page target.
      */
-    public function __construct(string $link, string $text = "")
+    public function __construct(string $target, string $text = "")
     {
-        $this->link = $link;
-        $this->text = ($text == "") ? $link : $text;
+        $this->target = $target;
+        $this->text = ($text == "") ? $target : $text;
     }
 
     /**
-     * Get the display text of the link.
+     * Get the display text of the page.
      *
-     * @return string The display text of the link.
+     * @return string The display text of the page.
      */
     public function getText(): string
     {
@@ -44,13 +44,13 @@ class InternalLink
     }
 
     /**
-     * Get the link target.
+     * Get the page target.
      *
-     * @return string The link target.
+     * @return string The page target.
      */
-    public function getLink(): string
+    public function getTarget(): string
     {
-        return $this->link;
+        return $this->target;
     }
 
     /**
@@ -60,10 +60,11 @@ class InternalLink
      */
     public function toString(): string
     {
-        if ($this->text == $this->link) {
-            return "[[".$this->link."]]";
+        if ($this->text == $this->target) {
+            return "[[".$this->target."]]";
         } else {
-            return "[[".$this->link."|".$this->text."]]";
+            return "[[".$this->target."|".$this->text."]]";
         }
     }
 }
+
