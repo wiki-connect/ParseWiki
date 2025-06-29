@@ -21,6 +21,11 @@
             "phpunit --testdox --colors=always"
         ]
     },
+    "config": {
+        "platform": {
+            "php": "8.1.29"
+        }
+    },
     "require-dev": {
         "phpstan/phpstan": "^2.1",
         "phpunit/phpunit": "^12.2"
