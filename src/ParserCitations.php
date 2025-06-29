@@ -63,7 +63,7 @@ class ParserCitations
         $text_citations = $this->find_sub_citations($this->text);
         $this->citations = [];
         foreach ($text_citations[1] as $key => $text_citation) {
-            $_Citation = new Citation($text_citations[2][$key], $text_citation, $text_citations[0][$key]);
+            $_Citation = new Citation($text_citations[2][$key], $text_citation);
             $this->citations[] = $_Citation;
         }
     }

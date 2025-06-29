@@ -12,52 +12,36 @@ namespace WikiConnect\ParseWiki\DataModel;
 class Citation
 {
     /**
-     * @var string The template name of the citation.
+     * @var string The content of the citation.
      */
-    private string $template;
+    private string $content;
 
     /**
-     * @var string The options of the citation.
+     * @var string The attributes of the citation.
      */
-    private string $options;
-
-    /**
-     * @var string The cite text of the citation.
-     */
-    private string $cite_text;
+    private string $attributes;
 
     /**
      * Citation constructor.
      *
-     * @param string $template The template name of the citation.
-     * @param string $options The options of the citation.
-     * @param string $cite_text The cite text of the citation.
+     * @param string $content The content of the citation.
+     * @param string $attributes The attributes of the citation.
      */
-    public function __construct(string $template, string $options = "", string $cite_text = "")
+    public function __construct(string $content, string $attributes = "")
     {
-        $this->template = $template;
-        $this->options = $options;
-        $this->cite_text = $cite_text;
+        $this->content = $content;
+        $this->attributes = $attributes;
     }
 
-    /**
-     * Get the cite text of the citation.
-     *
-     * @return string The cite text of the citation.
-     */
-    public function getCiteText(): string
-    {
-        return $this->cite_text;
-    }
 
     /**
      * Get the template name of the citation.
      *
      * @return string The template name of the citation.
      */
-    public function getTemplate(): string
+    public function getContent(): string
     {
-        return $this->template;
+        return $this->content;
     }
 
     /**
@@ -65,9 +49,9 @@ class Citation
      *
      * @return string The options of the citation.
      */
-    public function getOptions(): string
+    public function getAttributes(): string
     {
-        return $this->options;
+        return $this->attributes;
     }
 
     /**
@@ -77,7 +61,7 @@ class Citation
      */
     public function toString(): string
     {
-        return "<ref " . trim($this->options) . ">" . $this->template . "</ref>";
+        return "<ref " . trim($this->attributes) . ">" . $this->content . "</ref>";
     }
 }
 
