@@ -15,9 +15,9 @@ class ParserInternalLinks
      */
     private string $text;
     /**
-     * @var array The parsed internal links
+     * @var array The parsed pages
      */
-    private array $links;
+    private array $targets = [];
 
     /**
      * ParserInternalLinks constructor.
@@ -46,12 +46,11 @@ class ParserInternalLinks
     public function parse(): void
     {
         $text_links = $this->find_sub_links($this->text);
-        $this->links = [];
         foreach ($text_links[0] as $text_link) {
             if (preg_match("/^\[\[(.*?)(\]\])$/s", $text_link, $matches)) {
                 $parts = explode("|", $matches[1], 2);
                 $_InternalLink = (count($parts) == 1) ? new InternalLink($parts[0]) : new InternalLink($parts[0], $parts[1]);
-                $this->links[] = $_InternalLink;
+                $this->targets[] = $_InternalLink;
             }
         }
     }
@@ -60,9 +59,10 @@ class ParserInternalLinks
      * Get all internal links found in the text
      * @return array An array of InternalLink objects
      */
-    public function getLinks(): array
+    public function getTargets(): array
     {
-        return $this->links;
+        return $this->targets;
     }
 }
+
 
