@@ -16,12 +16,6 @@ class Template
      *
      * @var string
      */
-    private string $template;
-    /**
-     * The name of the template.
-     *
-     * @var string
-     */
     private string $name;
     /**
      * The name of the template stripped of any underscores.
@@ -195,26 +189,36 @@ class Template
      *
      * @return string The string representation of the template.
      */
-    public function toString(bool $newLine = false, int $ljust = 0): string
+    private function formatParameters(string $separator, int $ljust, bool $newLine): string
     {
-        $line = $newLine ? "\n" : "";
-        $this->template = $newLine ? "{{" . trim($this->name) : "{{" . $this->name;
-        $i = 1;
+        $result = "";
+        $index = 1;
         foreach ($this->parameters as $key => $value) {
-            $value = $newLine ? trim($value) : $value;
+            $formattedValue = $newLine ? trim($value) : $value;
 
-            if ($i == $key) {
-                $this->template .= "|" . $value;
+            if ($index == $key) {
+                $result .= "|" . $formattedValue;
             } else {
-                if ($ljust > 0) {
-                    $key = str_pad($key, $ljust, " ");
-                }
-                $this->template .= $line . "|" . $key . " = " . $value;
+                $formattedKey = $ljust > 0 ? str_pad($key, $ljust, " ") : $key;
+                // $result .= $separator . "|" . $formattedKey . " = " . $formattedValue;
+                $result .= $separator . "|" . $formattedKey . "=" . $formattedValue;
             }
-            $i++;
+            $index++;
         }
-        $this->template .= $line . "}}";
-        return $this->template;
+
+        return $result;
+    }
+
+    public function toString(bool $newLine = false, $ljust = 0): string
+    {
+        $separator = $newLine ? "\n" : "";
+        $templateName = $newLine ? trim($this->name) : $this->name;
+
+        $result = "{{" . $templateName;
+
+        $result .= $this->formatParameters($separator, $ljust, $newLine);
+
+        $result .= $separator . "}}";
+        return $result;
     }
 }
-
