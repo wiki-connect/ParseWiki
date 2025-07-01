@@ -20,6 +20,10 @@ class Citation
      * @var string The attributes of the citation.
      */
     private string $attributes;
+    /**
+     * @var string The original, unprocessed text of the citation.
+     */
+    private string $original_text;
 
     /**
      * Citation constructor.
@@ -27,17 +31,25 @@ class Citation
      * @param string $content The content of the citation.
      * @param string $attributes The attributes of the citation.
      */
-    public function __construct(string $content, string $attributes = "")
+    public function __construct(string $content, string $attributes = "", string $original_text = "")
     {
         $this->content = $content;
         $this->attributes = $attributes;
+        $this->original_text = $original_text;
     }
-
-
     /**
-     * Get the template name of the citation.
-     *
-     * @return string The template name of the citation.
+     * Get the original, unprocessed text of the citation.
+     * Example: <ref name="name">{{cite web|...}}</ref>
+     * @return string The original text of the citation.
+     */
+    public function getOriginalCiteText(): string
+    {
+        return $this->original_text;
+    }
+    /**
+     * Get the content of the citation.
+     * Example: {{cite web|...}}
+     * @return string The content of the citation.
      */
     public function getContent(): string
     {
@@ -45,9 +57,9 @@ class Citation
     }
 
     /**
-     * Get the options of the citation.
+     * Get the attributes of the citation.
      *
-     * @return string The options of the citation.
+     * @return string The attributes of the citation.
      */
     public function getAttributes(): string
     {
@@ -64,4 +76,3 @@ class Citation
         return "<ref " . trim($this->attributes) . ">" . $this->content . "</ref>";
     }
 }
-
