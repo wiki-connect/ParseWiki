@@ -3,6 +3,7 @@
 use PHPUnit\Framework\TestCase;
 use WikiConnect\ParseWiki\ParserTemplate;
 use WikiConnect\ParseWiki\DataModel\Template;
+use WikiConnect\ParseWiki\DataModel\Parameters;
 
 class ParserTemplateTest extends TestCase
 {
