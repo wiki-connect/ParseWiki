@@ -46,7 +46,31 @@ class ParserCitations
      */
     private function find_sub_citations(string $string): array
     {
-        preg_match_all("/<ref([^\/>]*?)>(.+?)<\/ref>/is", $string, $matches);
+        $matches = [];
+
+        // full tags: <ref>...</ref>
+        preg_match_all('/<ref([^\/>]*)>(.+?)<\/ref>/is', $string, $standardMatches, PREG_SET_ORDER);
+
+        foreach ($standardMatches as $match) {
+            $matches[] = [
+                'content'     => $match[2],
+                'attributes'  => $match[1],
+                'original'    => $match[0],
+                'selfClosing' => false,
+            ];
+        }
+
+        // self-closing tags: <ref ... />
+        preg_match_all('/<ref\s+([^>\/]*?)\s*\/>/is', $string, $selfClosingMatches, PREG_SET_ORDER);
+
+        foreach ($selfClosingMatches as $match) {
+            $matches[] = [
+                'content'     => '',
+                'attributes'  => $match[1],
+                'original'    => $match[0],
+                'selfClosing' => true,
+            ];
+        }
         return $matches;
     }
 
@@ -62,8 +86,14 @@ class ParserCitations
     {
         $text_citations = $this->find_sub_citations($this->text);
         $this->citations = [];
-        foreach ($text_citations[1] as $key => $text_citation) {
-            $_Citation = new Citation($text_citations[2][$key], $text_citation);
+
+        foreach ($text_citations as $citationData) {
+            $_Citation = new Citation(
+                $citationData['content'],
+                $citationData['attributes'],
+                $citationData['original'],
+                $citationData['selfClosing']
+            );
             $this->citations[] = $_Citation;
         }
     }
@@ -80,4 +110,3 @@ class ParserCitations
         return $this->citations;
     }
 }
-

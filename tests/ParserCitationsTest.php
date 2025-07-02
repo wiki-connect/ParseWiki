@@ -59,4 +59,51 @@ class ParserCitationsTest extends TestCase
         $this->assertCount(1, $citations);
         $this->assertEquals('Content with <b>HTML</b> & special chars!', $citations[0]->getContent());
     }
+    public function testAttributeParsingFromCitation()
+    {
+        $text = 'Text<ref name="test" group="alpha">Some content</ref>';
+        $parser = new ParserCitations($text);
+        $citations = $parser->getCitations();
+
+        $this->assertCount(1, $citations);
+
+        $attrs = $citations[0]->Attrs();
+
+        $this->assertInstanceOf(\WikiConnect\ParseWiki\DataModel\Attribute::class, $attrs);
+        $this->assertTrue($attrs->has('name'));
+        $this->assertTrue($attrs->has('group'));
+        $this->assertEquals('"test"', $attrs->get('name'));
+        $this->assertEquals('"alpha"', $attrs->get('group'));
+
+        $toStr = $attrs->toString();
+        $this->assertStringContainsString('name="test"', $toStr);
+        $this->assertStringContainsString('group="alpha"', $toStr);
+    }
+    public function testSelfClosingCitationTag()
+    {
+        $text = 'Some text before <ref name="test" group="alpha" novalue novalue2/> and after.';
+        $parser = new ParserCitations($text);
+        $citations = $parser->getCitations();
+
+        $this->assertCount(1, $citations);
+
+        $citation = $citations[0];
+
+        // تحقق من عدم وجود محتوى داخل الوسم
+        $this->assertEquals('', $citation->getContent());
+
+        // تحقق من السمات
+        $this->assertStringContainsString('name="test"', $citation->getAttributes());
+        $this->assertStringContainsString('group="alpha"', $citation->getAttributes());
+
+        // تحقق من السمات ككائن Attribute
+        $attrs = $citation->Attrs();
+        $this->assertTrue($attrs->has('name'));
+        $this->assertEquals('"test"', $attrs->get('name'));
+        $this->assertEquals('"alpha"', $attrs->get('group'));
+        $this->assertEquals('', $attrs->get('novalue2'));
+
+        $attrs->set('novalue2', 'new');
+        $this->assertEquals('new', $attrs->get('novalue2'));
+    }
 }
