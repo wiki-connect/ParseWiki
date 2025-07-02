@@ -133,12 +133,16 @@ class Attribute
      * @return string The attributes as a string in the format "key1=\"value1\" key2=\"value2\" ...
      */
 
-    public function toString(): string
+    public function toString($addQuotes = false): string
     {
         $result = [];
 
         foreach ($this->attributes_array as $key => $value) {
-            $result[] = $key . '="' . $value . '"';
+            if (!$value) {
+                $result[] = $key;
+                continue;
+            }
+            $result[] = $key . '=' . ($addQuotes ? '"' . trim($value, "\"'") . '"' : $value);
         }
 
         return implode(' ', $result);
