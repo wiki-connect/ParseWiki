@@ -40,8 +40,8 @@ class Citation
     {
         $this->selfClosing = $selfClosing;
         $this->content = $content;
-        $this->attributes = $attributes;
         $this->original_text = $original_text;
+        $this->attributes = $attributes;
         $this->attrs = new Attribute($this->attributes);
     }
     /**
@@ -80,7 +80,7 @@ class Citation
      *
      * @return void
      */
-    public function setContent($content): void
+    public function setContent(string $content): void
     {
         $this->content = $content;
     }
@@ -91,9 +91,10 @@ class Citation
      *
      * @return void
      */
-    public function setAttributes($attributes): void
+    public function setAttributes(string $attributes): void
     {
         $this->attributes = $attributes;
+        $this->attrs = new Attribute($this->attributes);
     }
 
     /**
@@ -115,14 +116,14 @@ class Citation
     }
 
     /**
-     * Convert the citation to a string. include Convert Attributes to a string
+     * Convert the citation to a string using the Attribute object for attribute formatting.
      *
      * @return string The citation as a string.
      */
     public function toStringNew(): string
     {
         $attrs = $this->attrs->toString();
-        if ($this->selfClosing && $this->content == "") {
+        if ($this->selfClosing && $this->content === "") {
             return "<ref " . trim($attrs) . "/>";
         }
         return "<ref " . trim($attrs) . ">" . $this->content . "</ref>";

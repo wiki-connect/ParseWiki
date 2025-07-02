@@ -154,9 +154,11 @@ class Attribute
             }
             if ($addQuotes) {
                 // Remove quotes only if they match at the beginning and end
-                $q = $value[0] ?? '';
-                if (($q === '"' || $q === "'") && str_ends_with($value, $q)) {
-                    $value = substr($value, 1, -1);
+                if (strlen($value) > 1) {
+                    $q = $value[0] ?? '';
+                    if (($q === '"' || $q === "'") && str_ends_with($value, $q)) {
+                        $value = substr($value, 1, -1);
+                    }
                 }
                 $value = '"' . $value . '"';
             }
