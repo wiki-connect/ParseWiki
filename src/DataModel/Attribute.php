@@ -50,9 +50,19 @@ class Attribute
     {
         // <ref name="source" group="bar">This is a citation</ref>
 
-        $text = "<ref {$this->content}>";
-        $attrfind_tolerant = '/((?<=[\'"\s\/])[^\s\/>][^\s\/=>]*)(\s*=+\s*(\'[^\']*\'|"[^"]*"|(?![\'"])[^>\s]*))?(?:\s|\/(?!>))*/';
+        $text = "<ref " . $this->content . ">";
+        // $attrfind_tolerant = '/((?<=[\'"\s\/])[^\s\/>][^\s\/=>]*)(\s*=+\s*(\'[^\']*\'|"[^"]*"|(?![\'"])[^>\s]*))?(?:\s|\/(?!>))*/';
 
+        $attrfind_tolerant = '/
+            ((?<=[\'"\s\/])[^\s\/>][^\s\/=>]*)             # Attribute name
+            (\s*=+\s*                                      # Equals sign(s)
+            (
+                \'[^\']*\'                                 # Value in single quotes
+                |"[^"]*"                                   # Value in double quotes
+                |(?![\'"])[^>\s]*                          # Unquoted value
+            ))?
+            (?:\s|\/(?!>))*                                # Trailing space or slash not followed by >
+        /x';
         $this->attributes_array = [];
 
         if (preg_match_all($attrfind_tolerant, $text, $matches, PREG_SET_ORDER)) {
