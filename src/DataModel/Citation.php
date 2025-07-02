@@ -2,6 +2,8 @@
 
 namespace WikiConnect\ParseWiki\DataModel;
 
+use WikiConnect\ParseWiki\DataModel\Attribute;
+
 /**
  * Class Citation
  *
@@ -25,6 +27,7 @@ class Citation
      */
     private string $original_text;
 
+    private Attribute $attrs;
     /**
      * Citation constructor.
      *
@@ -36,6 +39,7 @@ class Citation
         $this->content = $content;
         $this->attributes = $attributes;
         $this->original_text = $original_text;
+        $this->attrs = new Attribute($this->attributes);
     }
     /**
      * Get the original, unprocessed text of the citation.
@@ -97,5 +101,21 @@ class Citation
     public function toString(): string
     {
         return "<ref " . trim($this->attributes) . ">" . $this->content . "</ref>";
+    }
+
+    public function Attrs(): Attribute
+    {
+        return $this->attrs;
+    }
+
+    /**
+     * Convert the citation to a string. include Convert Attributes to a string
+     *
+     * @return string The citation as a string.
+     */
+    public function toStringNew(): string
+    {
+        $attrs = $this->attrs->toString();
+        return "<ref " . trim($attrs) . ">" . $this->content . "</ref>";
     }
 }
