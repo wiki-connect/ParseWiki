@@ -123,6 +123,7 @@ class Citation
         if ($this->selfClosing && $this->content === "") {
             return "<ref " . trim($attrs) . "/>";
         }
-        return "<ref " . trim($attrs) . ">" . $this->content . "</ref>";
+        $space = (trim($attrs) != "") ? " " : "";
+        return "<ref" . $space . trim($attrs) . ">" . $this->content . "</ref>";
     }
 }
