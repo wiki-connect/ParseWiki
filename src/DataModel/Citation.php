@@ -28,14 +28,17 @@ class Citation
     private string $original_text;
 
     private Attribute $attrs;
+
+    private bool $selfClosing = false;
     /**
      * Citation constructor.
      *
      * @param string $content The content of the citation.
      * @param string $attributes The attributes of the citation.
      */
-    public function __construct(string $content, string $attributes = "", string $original_text = "")
+    public function __construct(string $content, string $attributes = "", string $original_text = "", bool $selfClosing = false)
     {
+        $this->selfClosing = $selfClosing;
         $this->content = $content;
         $this->attributes = $attributes;
         $this->original_text = $original_text;
@@ -100,6 +103,9 @@ class Citation
      */
     public function toString(): string
     {
+        if ($this->selfClosing && $this->content == "") {
+            return "<ref " . trim($this->attributes) . "/>";
+        }
         return "<ref " . trim($this->attributes) . ">" . $this->content . "</ref>";
     }
 
@@ -116,6 +122,9 @@ class Citation
     public function toStringNew(): string
     {
         $attrs = $this->attrs->toString();
+        if ($this->selfClosing && $this->content == "") {
+            return "<ref " . trim($attrs) . "/>";
+        }
         return "<ref " . trim($attrs) . ">" . $this->content . "</ref>";
     }
 }
