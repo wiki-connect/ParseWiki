@@ -45,6 +45,7 @@ class Template
      * @param array $parameters The parameters of the template.
      * @param string $templateText The text of the template.
      */
+
     public function __construct(string $name, array $parameters = [], string $templateText = "")
     {
         $this->name = $name;
@@ -58,6 +59,7 @@ class Template
      *
      * @return string The text of the template.
      */
+
     public function getTemplateText(): string
     {
         return $this->templateText;
@@ -68,6 +70,7 @@ class Template
      *
      * @return string The name of the template.
      */
+
     public function getName(): string
     {
         return $this->name;
@@ -78,6 +81,7 @@ class Template
      *
      * @return string The name of the template stripped of any underscores.
      */
+
     public function getStripName(): string
     {
         return $this->name_strip;
@@ -88,6 +92,7 @@ class Template
      *
      * @return array The parameters of the template.
      */
+
     public function getParameters(): array
     {
         return $this->parameters;
@@ -100,6 +105,7 @@ class Template
      *
      * @return void
      */
+
     public function deleteParameter(string $key): void
     {
         if (array_key_exists($key, $this->parameters)) {
@@ -114,9 +120,22 @@ class Template
      *
      * @return string The value of the parameter.
      */
-    public function getParameter(string $key): string
+
+    public function getParameter(string $key, string $default = null): string
     {
-        return $this->parameters[$key] ?? "";
+        return $this->parameters[$key] ?? $default;
+    }
+
+    /**
+     * Check if a parameter of the template exists.
+     *
+     * @param string $key The key of the parameter to check.
+     *
+     * @return bool True if the parameter exists, false otherwise.
+     */
+    public function hasParameter(string $key): bool
+    {
+        return array_key_exists($key, $this->parameters);
     }
 
     /**
@@ -126,6 +145,7 @@ class Template
      *
      * @return void
      */
+
     public function setTempName(string $name): void
     {
         $this->name = $name;
@@ -139,6 +159,7 @@ class Template
      *
      * @return void
      */
+
     public function setParameter(string $key, string $value): void
     {
         $this->parameters[$key] = $value;
@@ -152,6 +173,7 @@ class Template
      *
      * @return void
      */
+
     public function changeParameterName(string $old, string $new): void
     {
         $newParameters = [];
@@ -171,6 +193,7 @@ class Template
      *
      * @return void
      */
+
     public function changeParametersNames(array $params_new): void
     {
         $newParameters = [];
