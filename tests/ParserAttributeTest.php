@@ -65,14 +65,13 @@ class ParserAttributeTest extends TestCase
         $attribute = new Attribute($attrText);
         $array = $attribute->getAttributesArray();
 
-        // تحقق من السمات الموجودة
         $this->assertArrayHasKey('name', $array);
-        $this->assertEquals('SPS2022', $array['name']);  // إزالة علامات الاقتباس إن وجدت
+        $this->assertEquals('SPS2022', $array['name']);
 
         $this->assertArrayHasKey('group', $array);
         $this->assertEquals("'12'", $array['group']);
 
-        $this->assertArrayHasKey('g', $array); // بدون قيمة
+        $this->assertArrayHasKey('g', $array);
         $this->assertEquals('', $array['g']);
 
         $this->assertArrayHasKey('44', $array);
@@ -84,7 +83,6 @@ class ParserAttributeTest extends TestCase
         $this->assertArrayHasKey('po', $array);
         $this->assertEquals("'grp=11'", $array['po']);
 
-        // اختبر أن السمة غير الموجودة تُرجع القيمة الافتراضية
         $this->assertEquals('default', $attribute->get('missing', 'default'));
     }
 }
