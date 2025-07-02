@@ -36,7 +36,7 @@ class Attribute
      * @return void
      */
 
-    public function setText($content): void
+    public function setContent($content): void
     {
         $this->content = $content;
         $this->parseAttributes();
