@@ -105,10 +105,10 @@ class ParserTemplates
      *
      * @return Template[] An array of Template objects.
      */
-    public function getTemplates(string $name = null): array
+    public function getTemplates(?string $name = null): array
     {
         $outtemplates = [];
-        if (isset($name)) {
+        if (!empty($name)) {
             foreach ($this->templates as $template) {
                 if ($template->getName() == $name) {
                     $outtemplates[] = $template;
@@ -120,4 +120,3 @@ class ParserTemplates
         return $outtemplates;
     }
 }
-
