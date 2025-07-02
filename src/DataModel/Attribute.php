@@ -95,7 +95,7 @@ class Attribute
      * @return string The value of the attribute. If the attribute does not exist, the default value is returned.
      */
 
-    public function get(string $key, string $default = null): string
+    public function get(string $key, string $default = ""): string
     {
         return $this->attributes_array[$key] ?? $default;
     }
