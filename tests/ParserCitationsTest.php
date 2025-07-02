@@ -59,4 +59,24 @@ class ParserCitationsTest extends TestCase
         $this->assertCount(1, $citations);
         $this->assertEquals('Content with <b>HTML</b> & special chars!', $citations[0]->getContent());
     }
+    public function testAttributeParsingFromCitation()
+    {
+        $text = 'Text<ref name="test" group="alpha">Some content</ref>';
+        $parser = new ParserCitations($text);
+        $citations = $parser->getCitations();
+
+        $this->assertCount(1, $citations);
+
+        $attrs = $citations[0]->Attrs();
+
+        $this->assertInstanceOf(\WikiConnect\ParseWiki\DataModel\Attribute::class, $attrs);
+        $this->assertTrue($attrs->has('name'));
+        $this->assertTrue($attrs->has('group'));
+        $this->assertEquals('"test"', $attrs->get('name'));
+        $this->assertEquals('"alpha"', $attrs->get('group'));
+
+        $toStr = $attrs->toString();
+        $this->assertStringContainsString('name="test"', $toStr);
+        $this->assertStringContainsString('group="alpha"', $toStr);
+    }
 }
