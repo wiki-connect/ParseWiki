@@ -79,4 +79,28 @@ class ParserCitationsTest extends TestCase
         $this->assertStringContainsString('name="test"', $toStr);
         $this->assertStringContainsString('group="alpha"', $toStr);
     }
+    public function testSelfClosingCitationTag()
+    {
+        $text = 'Some text before <ref name="test" group="alpha" novalue novalue2/> and after.';
+        $parser = new ParserCitations($text);
+        $citations = $parser->getCitations();
+
+        $this->assertCount(1, $citations);
+
+        $citation = $citations[0];
+
+        // تحقق من عدم وجود محتوى داخل الوسم
+        $this->assertEquals('', $citation->getContent());
+
+        // تحقق من السمات
+        $this->assertStringContainsString('name="test"', $citation->getAttributes());
+        $this->assertStringContainsString('group="alpha"', $citation->getAttributes());
+
+        // تحقق من السمات ككائن Attribute
+        $attrs = $citation->Attrs();
+        $this->assertTrue($attrs->has('name'));
+        $this->assertEquals('"test"', $attrs->get('name'));
+        $this->assertEquals('"alpha"', $attrs->get('group'));
+        $this->assertEquals('', $attrs->get('novalue2'));
+    }
 }
