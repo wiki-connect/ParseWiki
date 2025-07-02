@@ -58,6 +58,7 @@ Perfect for handling wiki-formatted text in PHP projects.
 |---------------------------|--------|-----------|------------|
 | **Templates**| ✅ Yes | ✅ Yes    | ✅ Yes     |
 | **Parameters**| ✅ Yes | ✅ Yes    | ✅ Yes     |
+| **Tags**|  |     |      |
 | **Citations**| ✅ Yes | ✅ Yes    | ✅ Yes     |
 | **Citations>Attributes**| ✅ Yes | ✅ Yes    | ✅ Yes     |
 | **Internal Links**        | ✅ Yes |     |      |
