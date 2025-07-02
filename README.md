@@ -52,6 +52,26 @@ Perfect for handling wiki-formatted text in PHP projects.
 - ✅ Full PHPUnit test coverage.
 
 ---
+## 🧩 Wikitext Features Support
+
+| Feature                    | Read ✅ | Modify ✏️ | Replace 🔄 |
+|---------------------------|--------|-----------|------------|
+| **Templates**| ✅ Yes | ✅ Yes    | ✅ Yes     |
+| **Parameters**| ✅ Yes | ✅ Yes    | ✅ Yes     |
+| **Citations**| ✅ Yes | ✅ Yes    | ✅ Yes     |
+| **Citations>Attributes**| ✅ Yes | ✅ Yes    | ✅ Yes     |
+| **Internal Links**        | ✅ Yes |     |      |
+| **External Links**        | ✅ Yes |     |      |
+| **Categories**            | ✅ Yes |      |       |
+| **Parser Functions**      |  |   |       |
+| **Tables**                |   |      |       |
+| **Sections**                |   |      |       |
+| **HTML Tags**             |  |  |       |
+| **Magic Words**           |   |      |       |
+
+> 🟡 **Note:** Some features are partially supported or under development. Contributions are welcome!
+
+---
 
 ## ⚙️ Requirements
 
