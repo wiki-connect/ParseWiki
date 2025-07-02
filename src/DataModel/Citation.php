@@ -67,6 +67,29 @@ class Citation
     }
 
     /**
+     * Set the content of the citation.
+     *
+     * @param string $content The content of the citation.
+     *
+     * @return void
+     */
+    public function setContent($content): void
+    {
+        $this->content = $content;
+    }
+    /**
+     * Set the attributes of the citation.
+     *
+     * @param string $attributes The attributes of the citation.
+     *
+     * @return void
+     */
+    public function setAttributes($attributes): void
+    {
+        $this->attributes = $attributes;
+    }
+
+    /**
      * Convert the citation to a string.
      *
      * @return string The citation as a string.
