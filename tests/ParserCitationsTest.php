@@ -102,5 +102,8 @@ class ParserCitationsTest extends TestCase
         $this->assertEquals('"test"', $attrs->get('name'));
         $this->assertEquals('"alpha"', $attrs->get('group'));
         $this->assertEquals('', $attrs->get('novalue2'));
+
+        $attrs->set('novalue2', 'new');
+        $this->assertEquals('new', $attrs->get('novalue2'));
     }
 }

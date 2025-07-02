@@ -14,6 +14,10 @@ use WikiConnect\ParseWiki\DataModel\Attribute;
 class Citation
 {
     /**
+     * @var string The name of the tag.
+     */
+    private string $tagname;
+    /**
      * @var string The content of the citation.
      */
     private string $content;
@@ -38,11 +42,17 @@ class Citation
      */
     public function __construct(string $content, string $attributes = "", string $original_text = "", bool $selfClosing = false)
     {
-        $this->selfClosing = $selfClosing;
+        $this->tagname = "ref";
         $this->content = $content;
-        $this->original_text = $original_text;
         $this->attributes = $attributes;
+        $this->original_text = $original_text;
+        $this->selfClosing = $selfClosing;
         $this->attrs = new Attribute($this->attributes);
+    }
+
+    public function getName(): string
+    {
+        return $this->tagname;
     }
     /**
      * Get the original, unprocessed text of the citation.
@@ -97,19 +107,6 @@ class Citation
         $this->attrs = new Attribute($this->attributes);
     }
 
-    /**
-     * Convert the citation to a string.
-     *
-     * @return string The citation as a string.
-     */
-    public function toString(): string
-    {
-        if ($this->selfClosing && $this->content == "") {
-            return "<ref " . trim($this->attributes) . "/>";
-        }
-        return "<ref " . trim($this->attributes) . ">" . $this->content . "</ref>";
-    }
-
     public function Attrs(): Attribute
     {
         return $this->attrs;
@@ -120,12 +117,13 @@ class Citation
      *
      * @return string The citation as a string.
      */
-    public function toStringNew(): string
+    public function toString(): string
     {
         $attrs = $this->attrs->toString();
         if ($this->selfClosing && $this->content === "") {
             return "<ref " . trim($attrs) . "/>";
         }
-        return "<ref " . trim($attrs) . ">" . $this->content . "</ref>";
+        $space = (trim($attrs) != "") ? " " : "";
+        return "<ref" . $space . trim($attrs) . ">" . $this->content . "</ref>";
     }
 }
