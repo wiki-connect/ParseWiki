@@ -121,18 +121,28 @@ class Attribute
      * @return void
      */
 
+    /**
+     * Delete an attribute from the citation.
+     *
+     * @param string $key The name of the attribute to delete.
+     *
+     * @return void
+     */
+
     public function delete(string $key): void
     {
         if (array_key_exists($key, $this->attributes_array)) {
             unset($this->attributes_array[$key]);
         }
     }
+
     /**
      * Convert the attributes to a string.
      *
-     * @return string The attributes as a string in the format "key1=\"value1\" key2=\"value2\" ...
+     * @param bool $addQuotes If true, add quotes to the attribute values.
+     *
+     * @return string The attributes as a string.
      */
-
     public function toString($addQuotes = false): string
     {
         $result = [];
@@ -142,7 +152,15 @@ class Attribute
                 $result[] = $key;
                 continue;
             }
-            $result[] = $key . '=' . ($addQuotes ? '"' . trim($value, "\"'") . '"' : $value);
+            if ($addQuotes) {
+                // Remove quotes only if they match at the beginning and end
+                $q = $value[0] ?? '';
+                if (($q === '"' || $q === "'") && str_ends_with($value, $q)) {
+                    $value = substr($value, 1, -1);
+                }
+                $value = '"' . $value . '"';
+            }
+            $result[] = $key . '=' . $value;
         }
 
         return implode(' ', $result);
