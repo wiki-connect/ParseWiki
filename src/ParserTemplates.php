@@ -53,7 +53,8 @@ class ParserTemplates
      */
     private function find_sub_templates(string $string): array
     {
-        preg_match_all("/\{{2}((?>[^\{\}]+)|(?R))*\}{2}/xm", $string, $matches);
+        $pattern = "/(\{{2}((?>[^\{\}]+)|(?R))*\}{2})/xm";
+        preg_match_all($pattern, $string, $matches, PREG_SET_ORDER);
 
         return $matches;
     }
@@ -68,12 +69,17 @@ class ParserTemplates
     public function parse(): void
     {
         $text_templates = $this->find_sub_templates($this->text);
-        foreach ($text_templates[0] as $text_template) {
+
+        foreach ($text_templates as $match) {
+            $text_template = $match[0]; // Full match
             $_parser = new ParserTemplate($text_template);
             $this->templates[] = $_parser->getTemplate();
+
             $text_template2 = trim($text_template);
+
             // remove first 2 litters and 2 last
             $text_template2 = substr($text_template2, 2, -2);
+
             $this->parse_sub($text_template2);
         }
     }
@@ -90,7 +96,9 @@ class ParserTemplates
     public function parse_sub(string $text): void
     {
         $text_templates = $this->find_sub_templates($text);
-        foreach ($text_templates[0] as $text_template) {
+
+        foreach ($text_templates as $match) {
+            $text_template = $match[0];
             $_parser = new ParserTemplate($text_template);
             $this->templates[] = $_parser->getTemplate();
         }
