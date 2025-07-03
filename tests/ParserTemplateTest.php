@@ -22,13 +22,13 @@ class ParserTemplateTest extends TestCase
 
     public function testTemplateWithUnnamedParameter()
     {
-        $templateText = '{{Coord|12.34|56.78|type=city}}';
+        $templateText = '{{Coord|12.66|56.88|type=city}}';
         $parser = new ParserTemplate($templateText);
         $template = $parser->getTemplate();
 
         $params = $template->getParameters();
-        $this->assertEquals('12.34', $params[1]);
-        $this->assertEquals('56.78', $params[2]);
+        $this->assertEquals('12.66', $params[1]);
+        $this->assertEquals('56.88', $params[2]);
         $this->assertEquals('city', $params['type']);
     }
 
