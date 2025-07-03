@@ -3,6 +3,7 @@
 use PHPUnit\Framework\TestCase;
 use WikiConnect\ParseWiki\ParserCitations;
 use WikiConnect\ParseWiki\DataModel\Citation;
+use WikiConnect\ParseWiki\DataModel\Attribute;
 
 class ParserCitationsTest extends TestCase
 {
@@ -69,7 +70,7 @@ class ParserCitationsTest extends TestCase
 
         $attrs = $citations[0]->Attrs();
 
-        $this->assertInstanceOf(\WikiConnect\ParseWiki\DataModel\Attribute::class, $attrs);
+        $this->assertInstanceOf(Attribute::class, $attrs);
         $this->assertTrue($attrs->has('name'));
         $this->assertTrue($attrs->has('group'));
         $this->assertEquals('"test"', $attrs->get('name'));

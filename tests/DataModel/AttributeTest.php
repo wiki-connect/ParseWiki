@@ -3,7 +3,7 @@
 use PHPUnit\Framework\TestCase;
 use WikiConnect\ParseWiki\DataModel\Attribute;
 
-class ParserAttributeTest extends TestCase
+class AttributeTest extends TestCase
 {
     public function testParsingAttributes()
     {
@@ -50,10 +50,10 @@ class ParserAttributeTest extends TestCase
         $this->assertContains($attribute->toString(), [$expected1, $expected2]);
     }
 
-    public function testSetText()
+    public function testsetContent()
     {
         $attribute = new Attribute('name="old"');
-        $attribute->setText('id="new"');
+        $attribute->setContent('id="new"');
 
         $this->assertFalse($attribute->has('name'));
         $this->assertTrue($attribute->has('id'));
