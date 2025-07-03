@@ -151,6 +151,6 @@ class Parameters
             $index++;
         }
 
-        return $result;
+        return trim($result);
     }
 }
