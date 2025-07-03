@@ -42,4 +42,127 @@ class ParserTemplateTest extends TestCase
         $this->assertStringContainsString('{{Nested|a=1|b=2}}', $params['data']);
         $this->assertEquals('val', $params['other']);
     }
+
+    public function testTemplateWithoutParameters()
+    {
+        $templateText = '{{JustTemplate}}';
+        $parser = new ParserTemplate($templateText);
+        $template = $parser->getTemplate();
+
+        $this->assertEquals('JustTemplate', $template->getName());
+        $this->assertEmpty($template->getParameters());
+    }
+
+    public function testTemplateWithLinks()
+    {
+        $templateText = '{{Infobox|name=[[John Doe]]|link=[[Page|Label]]}}';
+        $parser = new ParserTemplate($templateText);
+        $template = $parser->getTemplate();
+
+        $params = $template->getParameters();
+        $this->assertEquals('[[John Doe]]', $params['name']);
+        $this->assertEquals('[[Page|Label]]', $params['link']);
+    }
+
+    public function testParameterWithEqualsInValue()
+    {
+        $templateText = '{{Example|key=1+1=2}}';
+        $parser = new ParserTemplate($templateText);
+        $template = $parser->getTemplate();
+
+        $params = $template->getParameters();
+        $this->assertEquals('1+1=2', $params['key']);
+    }
+
+    public function testParameterWithSpacesInName()
+    {
+        $templateText = '{{Test| first name =John | last name = Doe }}';
+        $parser = new ParserTemplate($templateText);
+        $template = $parser->getTemplate();
+
+        $params = $template->getParameters();
+        $this->assertEquals('John', $params['first name']);
+        $this->assertEquals('Doe', $params['last name']);
+    }
+
+    public function testOverwrittenDuplicateParameter()
+    {
+        $templateText = '{{T|x=1|x=2}}';
+        $parser = new ParserTemplate($templateText);
+        $template = $parser->getTemplate();
+        $params = $template->getParameters();
+
+        // "x=2" should overwrite "x=1"
+        $this->assertEquals('2', $params['x']);
+    }
+
+    public function testParameterOrderPreservation()
+    {
+        $templateText = '{{T|first=1|second=2|third=3}}';
+        $parser = new ParserTemplate($templateText);
+        $template = $parser->getTemplate();
+        $params = array_keys($template->getParameters());
+
+        $this->assertEquals(['first', 'second', 'third'], $params);
+    }
+    public function testAccessingParametersObjectMethods()
+    {
+        $templateText = '{{Test|foo=bar|hello=world}}';
+        $parser = new ParserTemplate($templateText);
+        $template = $parser->getTemplate();
+
+        // Parameters object
+        $params = $template->parameters;
+
+        $this->assertInstanceOf(Parameters::class, $params);
+        $this->assertTrue($params->has('foo'));
+        $this->assertEquals('bar', $params->get('foo'));
+
+        // Modify a parameter
+        $params->set('foo', 'baz');
+        $this->assertEquals('baz', $params->get('foo'));
+
+        // Delete a parameter
+        $params->delete('hello');
+        $this->assertFalse($params->has('hello'));
+    }
+
+    public function testChangeParameterNameThroughTemplate()
+    {
+        $templateText = '{{Test|a=1|b=2}}';
+        $template = (new ParserTemplate($templateText))->getTemplate();
+
+        $template->parameters->changeParameterName('a', 'x');
+
+        $this->assertFalse($template->parameters->has('a'));
+        $this->assertTrue($template->parameters->has('x'));
+        $this->assertEquals('1', $template->parameters->get('x'));
+    }
+
+    public function testToStringReflectsParameterChanges()
+    {
+        $templateText = '{{MyBox|key1=val1|key2=val2}}';
+        $template = (new ParserTemplate($templateText))->getTemplate();
+
+        // تعديل على المعاملات
+        $template->parameters->set('key2', 'changed');
+        $template->parameters->delete('key1');
+
+        // toString يعكس التغييرات
+        $str = $template->toString();
+        $this->assertStringNotContainsString('key1=val1', $str);
+        $this->assertStringContainsString('key2=changed', $str);
+    }
+
+    public function testToStringWithLjustViaTemplate()
+    {
+        $templateText = '{{Box|a=1|bb=2}}';
+        $template = (new ParserTemplate($templateText))->getTemplate();
+
+        $output = $template->toString(false, 3); // ljust = 3
+
+        $this->assertStringContainsString('|a  =1', $output);
+        $this->assertStringContainsString('|bb =2', $output);
+    }
+
 }
