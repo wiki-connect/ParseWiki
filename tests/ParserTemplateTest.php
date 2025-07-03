@@ -127,18 +127,6 @@ class ParserTemplateTest extends TestCase
         $this->assertFalse($params->has('hello'));
     }
 
-    public function testChangeParameterNameThroughTemplate()
-    {
-        $templateText = '{{Test|a=1|b=2}}';
-        $template = (new ParserTemplate($templateText))->getTemplate();
-
-        $template->parameters->changeParameterName('a', 'x');
-
-        $this->assertFalse($template->parameters->has('a'));
-        $this->assertTrue($template->parameters->has('x'));
-        $this->assertEquals('1', $template->parameters->get('x'));
-    }
-
     public function testToStringReflectsParameterChanges()
     {
         $templateText = '{{MyBox|key1=val1|key2=val2}}';
@@ -164,5 +152,33 @@ class ParserTemplateTest extends TestCase
         $this->assertStringContainsString('|a  =1', $output);
         $this->assertStringContainsString('|bb =2', $output);
     }
+    public function testChangeParameterNameThroughTemplate()
+    {
+        $templateText = '{{Test|a=1|b=2}}';
+        $template = (new ParserTemplate($templateText))->getTemplate();
 
+        $parameters = $template->parameters;
+
+        $parameters->changeParameterName('a', 'x');
+
+        $this->assertFalse($parameters->has('a'));
+        $this->assertTrue($parameters->has('x'));
+        $this->assertEquals('1', $parameters->get('x'));
+    }
+    public function testChangeParameterNamesThroughTemplate()
+    {
+        $templateText = '{{Test|a=x|b=y|c=z}}';
+        $template = (new ParserTemplate($templateText))->getTemplate();
+        $parameters = $template->parameters;
+
+        $this->assertTrue($parameters->has('a'));
+        $this->assertEquals('x', $parameters->get('a'));
+
+        $parameters->changeParametersNames(['a' => 'b']);
+
+        // Final result should have only one 'b' (with value of 'a'), and 'c' stays
+        $this->assertEquals(['b' => 'x', 'c' => 'z'], $parameters->getParameters());
+        $this->assertEquals('x', $parameters->get('b'));
+        $this->assertEquals('z', $parameters->get('c'));
+    }
 }
