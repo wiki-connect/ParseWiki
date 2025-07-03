@@ -104,33 +104,50 @@ class Parameters
 
     public function changeParameterName(string $old, string $new): void
     {
+        if (!array_key_exists($old, $this->parameters)) {
+            return;
+        }
+
         $newParameters = [];
-        // use foreach to keep the order
+
         foreach ($this->parameters as $k => $v) {
             if ($k === $old) {
-                $k = $new;
-            };
-            $newParameters[$k] = $v;
+                $newParameters[$new] = $v;
+            } elseif ($k !== $new) {
+                $newParameters[$k] = $v;
+            }
+            // if ($k === $new && $k !== $old) → ignore
         }
+
         $this->parameters = $newParameters;
     }
+
 
     /**
      * Change the names of multiple parameters of the template.
      *
-     * @param array $params_new The new names of the parameters.
+     * @param array $map The new names of the parameters.
      *
      * @return void
      */
 
-    public function changeParametersNames(array $params_new): void
+    public function changeParametersNames(array $map): void
     {
         $newParameters = [];
+
         // use foreach to keep the order
         foreach ($this->parameters as $k => $v) {
-            $k = isset($params_new[$k]) ? $params_new[$k] : $k;
-            $newParameters[$k] = $v;
+            if (array_key_exists($k, $map)) {
+                $newKey = $map[$k];
+                // new key has priority in case of name duplication
+                $newParameters[$newKey] = $v;
+            } elseif (!in_array($k, $map)) {
+                // ignore keys that will be replaced later
+                $newParameters[$k] = $v;
+            }
+            // the key that exists as value in the map will be skipped if it's not in the original keys
         }
+
         $this->parameters = $newParameters;
     }
 
