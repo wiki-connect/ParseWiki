@@ -68,16 +68,6 @@ class ParserTemplates
      * text and extracts all templates. Then it calls itself
      * recursively for each template found.
      */
-    public function parsex(): void
-    {
-        $text_templates = $this->find_sub_templates($this->text);
-
-        foreach ($text_templates as $match) {
-            $text_template = $match[0]; // Full match
-            $_parser = new ParserTemplate($text_template);
-            $this->templates[] = $_parser->getTemplate();
-        }
-    }
     public function parse(): void
     {
         $stack = [['text' => $this->text, 'depth' => 0]];
