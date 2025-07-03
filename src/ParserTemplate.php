@@ -39,7 +39,8 @@ class ParserTemplate
     private function clear_pipes(string $DTemplate): string
     {
         $matches = [];
-        preg_match_all("/\{\{(.*?)\}\}/s", $DTemplate, $matches);
+        // preg_match_all("/\{\{(.*?)\}\}/sg", $DTemplate, $matches);
+        preg_match_all("/\{\{((?:[^{}]++|(?R))*)\}\}/s", $DTemplate, $matches);
 
         foreach ($matches[1] as $matche) {
             $DTemplate = str_replace($matche, str_replace($this->pipe, $this->pipeR, $matche), $DTemplate);
