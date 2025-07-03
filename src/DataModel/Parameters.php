@@ -94,36 +94,6 @@ class Parameters
     }
 
     /**
-     * Change the name of a parameter of the template.
-     *
-     * @param string $old The old name of the parameter.
-     * @param string $new The new name of the parameter.
-     *
-     * @return void
-     */
-
-    public function changeParameterName(string $old, string $new): void
-    {
-        if (!array_key_exists($old, $this->parameters)) {
-            return;
-        }
-
-        $newParameters = [];
-
-        foreach ($this->parameters as $k => $v) {
-            if ($k === $old) {
-                $newParameters[$new] = $v;
-            } elseif ($k !== $new) {
-                $newParameters[$k] = $v;
-            }
-            // if ($k === $new && $k !== $old) → ignore
-        }
-
-        $this->parameters = $newParameters;
-    }
-
-
-    /**
      * Change the names of multiple parameters of the template.
      *
      * @param array $map The new names of the parameters.
@@ -149,6 +119,20 @@ class Parameters
         }
 
         $this->parameters = $newParameters;
+    }
+
+    /**
+     * Change the name of a parameter of the template.
+     *
+     * @param string $old The old name of the parameter.
+     * @param string $new The new name of the parameter.
+     *
+     * @return void
+     */
+
+    public function changeParameterName(string $old, string $new): void
+    {
+        $this->changeParametersNames([$old => $new]);
     }
 
     public function toString(int $ljust = 0, bool $newLine = false): string
