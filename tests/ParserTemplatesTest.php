@@ -181,4 +181,20 @@ class ParserTemplatesTest extends TestCase
         $this->assertStringContainsString('x=999', $output);
         $this->assertStringNotContainsString('y=2', $output);
     }
+    public function testChangeParameterNamesThroughTemplate()
+    {
+        $templateText = '{{Test|a=x|d=y|c=z}}';
+        $Parser = new ParserTemplates($templateText);
+        $template = $Parser->getTemplates()[0];
+
+        $this->assertTrue($template->parameters->has('a'));
+        $this->assertEquals('x', $template->parameters->get('a'));
+
+        $template->parameters->changeParametersNames(['a' => 'd']);
+
+        // Final result should have only one 'd' (with value of 'a'), and 'c' stays
+        $this->assertEquals(['d' => 'x', 'c' => 'z'], $template->parameters->getParameters());
+        $this->assertEquals('x', $template->parameters->get('d'));
+        $this->assertEquals('z', $template->parameters->get('c'));
+    }
 }
