@@ -3,7 +3,7 @@
 use PHPUnit\Framework\TestCase;
 use WikiConnect\ParseWiki\DataModel\Attribute;
 
-class DataModelAttributeTest extends TestCase
+class AttributeTest extends TestCase
 {
     public function testParsingAttributes()
     {
