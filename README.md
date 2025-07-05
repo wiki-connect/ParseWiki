@@ -126,6 +126,24 @@ foreach ($templates as $template) {
     print_r($template->getParameters());
 }
 ```
+### Parsing and Editing a single Template
+
+```php
+use WikiConnect\ParseWiki\ParserTemplate;
+
+$text = '{{Infobox_Person|name=John Doe|birth_date=1990-01-01}}';
+
+$parser = new ParserTemplate($text);
+$template = $parser->getTemplate();
+
+// Edit the template
+$template->setName('Infobox person');
+$template->parameters->set('birth_place', '[[New York City|New York]]');
+
+$new_template = $template->toString();
+echo $new_template; // {{Infobox person|name=John Doe|birth_date=1990-01-01|birth_place=[[New York City|New York]]}
+
+```
 
 ### Parsing Internal Links
 

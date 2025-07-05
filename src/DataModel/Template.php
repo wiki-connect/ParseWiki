@@ -103,9 +103,10 @@ class Template
      * @return void
      */
 
-    public function setTempName(string $name): void
+    public function setName(string $name): void
     {
         $this->name = $name;
+        $this->nameStrip = trim(str_replace('_', ' ', $name));
     }
 
     /**

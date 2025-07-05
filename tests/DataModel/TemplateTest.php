@@ -17,10 +17,10 @@ class TemplateTest extends TestCase
         $this->assertEquals($params, $template->getParameters());
     }
 
-    public function testSetTempName()
+    public function testsetName()
     {
         $template = new Template('OldName');
-        $template->setTempName('NewName');
+        $template->setName('NewName');
         $this->assertEquals('NewName', $template->getName());
     }
 
