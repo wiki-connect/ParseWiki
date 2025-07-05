@@ -1,4 +1,5 @@
 <?php
+
 namespace WikiConnect\ParseWiki\DataModel;
 
 /**
@@ -99,14 +100,14 @@ class Table
      */
     public function toString(): string
     {
-        $tableMarkup = "{| class=\"".$this->classes."\"" . PHP_EOL;
+        $tableMarkup = "{| class=\"" . $this->classes . "\"" . PHP_EOL;
         $tableMarkup .= "|-" . PHP_EOL;
-        
+
         for ($i = 0; $i < count($this->header); $i++) {
             if ($i + 1 == count($this->header)) {
-                $tableMarkup .= "!" . $this->header[$i] .PHP_EOL;
+                $tableMarkup .= "!" . $this->header[$i] . PHP_EOL;
             } else {
-                $tableMarkup .= "!" . $this->header[$i] .PHP_EOL;
+                $tableMarkup .= "!" . $this->header[$i] . PHP_EOL;
             }
         }
         $tableMarkup .= "|-" . PHP_EOL;
@@ -115,7 +116,7 @@ class Table
                 if ($i + 1 == count($this->header)) {
                     $tableMarkup .= "|" . $this->data[$ii][$i] . PHP_EOL;
                 } else {
-                    $tableMarkup .= "|" . $this->data[$ii][$i]. "|";
+                    $tableMarkup .= "|" . $this->data[$ii][$i] . "|";
                 }
             }
             if ($ii + 1 != count($this->data)) {
@@ -124,5 +125,9 @@ class Table
         }
         $tableMarkup .= "|}";
         return $tableMarkup;
+    }
+    public function __toString(): string
+    {
+        return $this->toString();
     }
 }

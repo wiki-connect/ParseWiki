@@ -49,28 +49,41 @@ class ParserCitations
         $matches = [];
 
         // full tags: <ref>...</ref>
-        preg_match_all('/<ref([^\/>]*)>(.+?)<\/ref>/is', $string, $standardMatches, PREG_SET_ORDER);
+        preg_match_all(
+            '/<ref([^\/>]*)>(.+?)<\/ref>/is',
+            $string,
+            $standardMatches,
+            PREG_SET_ORDER
+        );
 
         foreach ($standardMatches as $match) {
             $matches[] = [
-                'content'     => $match[2],
-                'attributes'  => $match[1],
                 'original'    => $match[0],
+                'name'        => "ref",
+                'attributes'  => $match[1],
+                'content'     => $match[2],
                 'selfClosing' => false,
             ];
         }
 
-        // self-closing tags: <ref ... />
-        preg_match_all('/<ref\s+([^>\/]*?)\s*\/>/is', $string, $selfClosingMatches, PREG_SET_ORDER);
+        // Self-closing tags like <ref ... />
+        preg_match_all(
+            '/<ref\s+([^>\/]*?)\s*\/>/is',
+            $string,
+            $selfClosingMatches,
+            PREG_SET_ORDER
+        );
 
         foreach ($selfClosingMatches as $match) {
             $matches[] = [
-                'content'     => '',
-                'attributes'  => $match[1],
                 'original'    => $match[0],
+                'name'        => "ref",
+                'attributes'  => $match[1],
+                'content'     => '',
                 'selfClosing' => true,
             ];
         }
+
         return $matches;
     }
 
