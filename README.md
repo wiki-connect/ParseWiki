@@ -12,7 +12,6 @@ This library allows you to extract:
 - External links
 - Citations (references)
 - Categories (with or without display text)
-
 Perfect for handling wiki-formatted text in PHP projects.
 
 ---
@@ -26,18 +25,23 @@ Perfect for handling wiki-formatted text in PHP projects.
 - `ParserCitations`: Parses citations and references.
 - `ParserCategories`: Parses categories from wiki text.
 - `DataModel` classes:
-    - `Template`
-    - `InternalLink`
-    - `ExternalLink`
-    - `Citation`
+  - `Attribute`
+  - `Citation`
+  - `ExternalLink`
+  - `InternalLink`
+  - `Parameters`
+  - `Template`
 - `tests/`: Contains PHPUnit test files:
-    - `ParserTemplatesTest`
-    - `ParserTemplateTest`
-    - `ParserInternalLinksTest`
-    - `ParserExternalLinksTest`
-    - `ParserCitationsTest`
-    - `ParserCategoriesTest`
-
+  - `ParserCategoriesTest`
+  - `ParserCitationsTest`
+  - `ParserExternalLinksTest`
+  - `ParserInternalLinksTest`
+  - `ParserTemplatesTest`
+  - `ParserTemplateTest`
+  - `DataModel` tests:
+    - `AttributeTest`
+    - `ParametersTest`
+    - `TemplateTest`
 ---
 
 ## 🚀 Features
@@ -55,19 +59,19 @@ Perfect for handling wiki-formatted text in PHP projects.
 ## 🧩 Wikitext Features Support
 
 | Feature                    | Read ✅ | Modify ✏️ | Replace 🔄 |
-|---------------------------|--------|-----------|------------|
-| **Templates**| ✅ Yes | ✅ Yes    | ✅ Yes     |
-| **Parameters**| ✅ Yes | ✅ Yes    | ✅ Yes     |
-| **Citations**| ✅ Yes | ✅ Yes    | ✅ Yes     |
-| **Citations>Attributes**| ✅ Yes | ✅ Yes    | ✅ Yes     |
-| **Internal Links**        | ✅ Yes |     |      |
-| **External Links**        | ✅ Yes |     |      |
-| **Categories**            | ✅ Yes |      |       |
-| **Parser Functions**      |  |   |       |
-| **Tables**                |   |      |       |
-| **Sections**                |   |      |       |
-| **HTML Tags**             |  |  |       |
-| **Magic Words**           |   |      |       |
+|--------------------------- |---------|------------|------------|
+| **Templates**              | ✅ Yes  | ✅ Yes    | ✅ Yes     |
+| **Parameters**             | ✅ Yes  | ✅ Yes    | ✅ Yes     |
+| **Citations**              | ✅ Yes  | ✅ Yes    | ✅ Yes     |
+| **Citations>Attributes**   | ✅ Yes  | ✅ Yes    | ✅ Yes     |
+| **Internal Links**         | ✅ Yes  |     |      |
+| **External Links**         | ✅ Yes  |     |      |
+| **Categories**             | ✅ Yes  |      |       |
+| **HTML Tags**              |   |     |      |
+| **Parser Functions**       |   |   |       |
+| **Tables**                 |   |      |       |
+| **Sections**               |   |      |       |
+| **Magic Words**            |   |      |       |
 
 > 🟡 **Note:** Some features are partially supported or under development. Contributions are welcome!
 
