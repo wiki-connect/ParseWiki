@@ -36,42 +36,29 @@ class ParserTemplate
      * This method does not return any value. It sets the internal state of the
      * object by populating the $name and $parameters properties.
      */
-    private function clear_pipes(string $DTemplate): string
-    {
-        $matches = [];
-        // preg_match_all("/\{\{(.*?)\}\}/sg", $DTemplate, $matches);
-        preg_match_all("/\{\{((?:[^{}]++|(?R))*)\}\}/s", $DTemplate, $matches);
-
-        foreach ($matches[1] as $matche) {
-            $DTemplate = str_replace($matche, str_replace($this->pipe, $this->pipeR, $matche), $DTemplate);
-        }
-        $matches2 = [];
-
-        preg_match_all("/\[\[(.*?)\]\]/", $DTemplate, $matches2);
-        foreach ($matches2[1] as $matche) {
-            $DTemplate = str_replace($matche, str_replace($this->pipe, $this->pipeR, $matche), $DTemplate);
-        }
-
-        return $DTemplate;
-    }
     public function parse(): void
     {
         if (preg_match("/^\{\{(.*?)(\}\})$/s", $this->templateText, $matchesR)) {
-
-            $DTemplate = $this->clear_pipes($matchesR[1]);
+            $DTemplate = $matchesR[1];
+            $matches = [];
+            preg_match_all("/\{\{(.*?)\}\}/", $DTemplate, $matches);
+            foreach ($matches[1] as $matche) {
+                $DTemplate = str_replace($matche, str_replace($this->pipe, $this->pipeR, $matche), $DTemplate);
+            }
+            $matches = [];
+            preg_match_all("/\[\[(.*?)\]\]/", $DTemplate, $matches);
+            foreach ($matches[1] as $matche) {
+                $DTemplate = str_replace($matche, str_replace($this->pipe, $this->pipeR, $matche), $DTemplate);
+            }
 
             $params = explode("|", $DTemplate);
             $pipeR = $this->pipeR;
             $pipe = $this->pipe;
-
             $params = array_map(function ($string) use ($pipeR, $pipe) {
                 return str_replace($pipeR, $pipe, $string);
             }, $params);
-
             $data = [];
-
             $this->name = $params[0];
-
             for ($i = 1; $i < count($params); $i++) {
                 $param = $params[$i];
                 if (strpos($param, "=") !== false) {
@@ -97,3 +84,4 @@ class ParserTemplate
         return new Template($this->name, $this->parameters, $this->templateText);
     }
 }
+

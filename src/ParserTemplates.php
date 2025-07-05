@@ -19,7 +19,6 @@ class ParserTemplates
      * @var string
      */
     private string $text;
-    private int $maxDepth;
 
     /**
      * The templates found in the text.
@@ -37,7 +36,6 @@ class ParserTemplates
     {
         $this->text = $text;
         $this->templates = [];
-        $this->maxDepth = 10;
         $this->parse();
     }
 
@@ -55,8 +53,7 @@ class ParserTemplates
      */
     private function find_sub_templates(string $string): array
     {
-        $pattern = "/\{{2}(((?>[^\{\}]+)|(?R))*)\}{2}/xm";
-        preg_match_all($pattern, $string, $matches, PREG_SET_ORDER);
+        preg_match_all("/\{{2}((?>[^\{\}]+)|(?R))*\}{2}/xm", $string, $matches);
 
         return $matches;
     }
@@ -70,32 +67,32 @@ class ParserTemplates
      */
     public function parse(): void
     {
-        $stack = [['text' => $this->text, 'depth' => 0]];
+        $text_templates = $this->find_sub_templates($this->text);
+        foreach ($text_templates[0] as $text_template) {
+            $_parser = new ParserTemplate($text_template);
+            $this->templates[] = $_parser->getTemplate();
+            $text_template2 = trim($text_template);
+            // remove first 2 litters and 2 last
+            $text_template2 = substr($text_template2, 2, -2);
+            $this->parse_sub($text_template2);
+        }
+    }
 
-        while (!empty($stack)) {
-            $current = array_pop($stack);
-            $currentText = $current['text'];
-            $currentDepth = $current['depth'];
-
-            if ($currentDepth >= $this->maxDepth) {
-                continue;
-            }
-
-            $text_templates = $this->find_sub_templates($currentText);
-
-            foreach ($text_templates as $match) {
-                $template_full = $match[0]; // شامل الأقواس
-                $template_inner = $match[1]; // المحتوى فقط
-
-                $_parser = new ParserTemplate($template_full);
-                $this->templates[] = $_parser->getTemplate();
-
-                // أضف القالب الداخلي إلى المكدس لتحليله لاحقًا
-                $stack[] = [
-                    'text' => $template_inner,
-                    'depth' => $currentDepth + 1
-                ];
-            }
+    /**
+     * Parse a text and extract all Templates.
+     *
+     * This function is called by the parse function. It parses
+     * a text and extracts all templates. Then it calls itself
+     * recursively for each template found.
+     *
+     * @param string $text The text to parse.
+     */
+    public function parse_sub(string $text): void
+    {
+        $text_templates = $this->find_sub_templates($text);
+        foreach ($text_templates[0] as $text_template) {
+            $_parser = new ParserTemplate($text_template);
+            $this->templates[] = $_parser->getTemplate();
         }
     }
 
@@ -108,18 +105,19 @@ class ParserTemplates
      *
      * @return Template[] An array of Template objects.
      */
-    public function getTemplates(?string $name = null): array
+    public function getTemplates(string $name = null): array
     {
-        if (empty($name)) {
-            return $this->templates;
-        }
-
         $outtemplates = [];
-        foreach ($this->templates as $template) {
-            if ($template->getName() == $name) {
-                $outtemplates[] = $template;
+        if (isset($name)) {
+            foreach ($this->templates as $template) {
+                if ($template->getName() == $name) {
+                    $outtemplates[] = $template;
+                }
             }
+        } else {
+            $outtemplates = $this->templates;
         }
         return $outtemplates;
     }
 }
+
