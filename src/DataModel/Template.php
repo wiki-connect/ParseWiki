@@ -34,7 +34,7 @@ class Template
      */
     private string $originalText;
 
-    private Parameters $parameters;
+    public Parameters $parameters;
 
     /**
      * Template constructor.
