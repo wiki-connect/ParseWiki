@@ -132,11 +132,11 @@ class ParserTemplateTest extends TestCase
         $templateText = '{{MyBox|key1=val1|key2=val2}}';
         $template = (new ParserTemplate($templateText))->getTemplate();
 
-        // تعديل على المعاملات
+        // Modify parameters
         $template->parameters->set('key2', 'changed');
         $template->parameters->delete('key1');
 
-        // toString يعكس التغييرات
+        // toString reflects the changes
         $str = $template->toString();
         $this->assertStringNotContainsString('key1=val1', $str);
         $this->assertStringContainsString('key2=changed', $str);

@@ -5,7 +5,7 @@ namespace WikiConnect\ParseWiki\DataModel;
 /**
  * Class Parameters
  *
- * Represents a template in a wikitext document.
+ * Represents template parameters in a wikitext document.
  *
  * @package WikiConnect\ParseWiki\DataModel
  */

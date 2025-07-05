@@ -84,13 +84,13 @@ class ParserTemplates
             $text_templates = $this->find_sub_templates($currentText);
 
             foreach ($text_templates as $match) {
-                $template_full = $match[0]; // شامل الأقواس
+                $template_full = $match[0]; // Including brackets
                 $template_inner = $match[1]; // المحتوى فقط
 
                 $_parser = new ParserTemplate($template_full);
                 $this->templates[] = $_parser->getTemplate();
 
-                // أضف القالب الداخلي إلى المكدس لتحليله لاحقًا
+                // Add the inner template to the stack for later parsing
                 $stack[] = [
                     'text' => $template_inner,
                     'depth' => $currentDepth + 1
