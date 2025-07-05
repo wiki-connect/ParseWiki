@@ -2,9 +2,6 @@
 
 namespace WikiConnect\ParseWiki\DataModel;
 
-use WikiConnect\ParseWiki\DataModel\Parameters;
-
-
 /**
  * Class Template
  *
@@ -25,31 +22,36 @@ class Template
      *
      * @var string
      */
-    private string $nameStrip;
+    private string $name_strip;
 
     /**
      * The text of the template.
      *
      * @var string
      */
-    private string $originalText;
+    private string $templateText;
 
-    public Parameters $parameters;
+    /**
+     * The parameters of the template.
+     *
+     * @var array
+     */
+    private array $parameters;
 
     /**
      * Template constructor.
      *
      * @param string $name The name of the template.
      * @param array $parameters The parameters of the template.
-     * @param string $originalText The text of the template.
+     * @param string $templateText The text of the template.
      */
 
-    public function __construct(string $name, array $parameters = [], string $originalText = "")
+    public function __construct(string $name, array $parameters = [], string $templateText = "")
     {
         $this->name = $name;
-        $this->nameStrip = trim(str_replace('_', ' ', $name));
-        $this->originalText = $originalText;
-        $this->parameters = new Parameters($parameters);
+        $this->name_strip = trim(str_replace('_', ' ', $name));
+        $this->parameters = $parameters;
+        $this->templateText = $templateText;
     }
 
     /**
@@ -58,9 +60,9 @@ class Template
      * @return string The text of the template.
      */
 
-    public function getOriginalText(): string
+    public function getTemplateText(): string
     {
-        return $this->originalText;
+        return $this->templateText;
     }
 
     /**
@@ -82,7 +84,7 @@ class Template
 
     public function getStripName(): string
     {
-        return $this->nameStrip;
+        return $this->name_strip;
     }
 
     /**
@@ -93,8 +95,49 @@ class Template
 
     public function getParameters(): array
     {
-        return $this->parameters->getParameters();
+        return $this->parameters;
     }
+
+    /**
+     * Delete a parameter of the template.
+     *
+     * @param string $key The key of the parameter to delete.
+     *
+     * @return void
+     */
+
+    public function deleteParameter(string $key): void
+    {
+        if (array_key_exists($key, $this->parameters)) {
+            unset($this->parameters[$key]);
+        }
+    }
+
+    /**
+     * Get a parameter of the template.
+     *
+     * @param string $key The key of the parameter to get.
+     *
+     * @return string The value of the parameter.
+     */
+
+    public function getParameter(string $key, string $default = ""): string
+    {
+        return $this->parameters[$key] ?? $default;
+    }
+
+    /**
+     * Check if a parameter of the template exists.
+     *
+     * @param string $key The key of the parameter to check.
+     *
+     * @return bool True if the parameter exists, false otherwise.
+     */
+    public function hasParameter(string $key): bool
+    {
+        return array_key_exists($key, $this->parameters);
+    }
+
     /**
      * Set the name of the template.
      *
@@ -108,14 +151,95 @@ class Template
         $this->name = $name;
     }
 
+    /**
+     * Set a parameter of the template.
+     *
+     * @param string $key The key of the parameter to set.
+     * @param string $value The value of the parameter.
+     *
+     * @return void
+     */
+
+    public function setParameter(string $key, string $value): void
+    {
+        $this->parameters[$key] = $value;
+    }
+
+    /**
+     * Change the name of a parameter of the template.
+     *
+     * @param string $old The old name of the parameter.
+     * @param string $new The new name of the parameter.
+     *
+     * @return void
+     */
+
+    public function changeParameterName(string $old, string $new): void
+    {
+        $newParameters = [];
+        foreach ($this->parameters as $k => $v) {
+            if ($k === $old) {
+                $k = $new;
+            };
+            $newParameters[$k] = $v;
+        }
+        $this->parameters = $newParameters;
+    }
+
+    /**
+     * Change the names of multiple parameters of the template.
+     *
+     * @param array $params_new The new names of the parameters.
+     *
+     * @return void
+     */
+
+    public function changeParametersNames(array $params_new): void
+    {
+        $newParameters = [];
+        foreach ($this->parameters as $k => $v) {
+            $k = isset($params_new[$k]) ? $params_new[$k] : $k;
+            $newParameters[$k] = $v;
+        }
+        $this->parameters = $newParameters;
+    }
+
+    /**
+     * Convert the template to a string.
+     *
+     * @param bool $newLine If true, a new line is added after the template.
+     * @param int $ljust The number of spaces to left-justify the parameter names.
+     *
+     * @return string The string representation of the template.
+     */
+    private function formatParameters(string $separator, int $ljust, bool $newLine): string
+    {
+        $result = "";
+        $index = 1;
+        foreach ($this->parameters as $key => $value) {
+            $formattedValue = $newLine ? trim($value) : $value;
+
+            if ($index == $key) {
+                $result .= "|" . $formattedValue;
+            } else {
+                $formattedKey = $ljust > 0 ? str_pad($key, $ljust, " ") : $key;
+                // $result .= $separator . "|" . $formattedKey . " = " . $formattedValue;
+                $result .= $separator . "|" . $formattedKey . "=" . $formattedValue;
+            }
+            $index++;
+        }
+
+        return $result;
+    }
+
     public function toString(bool $newLine = false, $ljust = 0): string
     {
         $separator = $newLine ? "\n" : "";
         $templateName = $newLine ? trim($this->name) : $this->name;
 
-        $result = "{{" . $templateName . $separator;
+        $result = "{{" . $templateName;
 
-        $result .= $this->parameters->toString($ljust, $newLine);
+        $result .= $this->formatParameters($separator, $ljust, $newLine);
 
         $result .= $separator . "}}";
         return $result;

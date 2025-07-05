@@ -29,7 +29,7 @@ class Citation
     /**
      * @var string The original, unprocessed text of the citation.
      */
-    private string $originalText;
+    private string $original_text;
 
     private Attribute $attrs;
 
@@ -40,12 +40,12 @@ class Citation
      * @param string $content The content of the citation.
      * @param string $attributes The attributes of the citation.
      */
-    public function __construct(string $content, string $attributes = "", string $originalText = "", bool $selfClosing = false)
+    public function __construct(string $content, string $attributes = "", string $original_text = "", bool $selfClosing = false)
     {
         $this->tagname = "ref";
         $this->content = $content;
         $this->attributes = $attributes;
-        $this->originalText = $originalText;
+        $this->original_text = $original_text;
         $this->selfClosing = $selfClosing;
         $this->attrs = new Attribute($this->attributes);
     }
@@ -59,9 +59,9 @@ class Citation
      * Example: <ref name="name">{{cite web|...}}</ref>
      * @return string The original text of the citation.
      */
-    public function getOriginalText(): string
+    public function getOriginalCiteText(): string
     {
-        return $this->originalText;
+        return $this->original_text;
     }
     /**
      * Get the content of the citation.
